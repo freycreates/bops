@@ -1,0 +1,32 @@
+name: Check BOPS tickets
+
+on:
+  schedule:
+    - cron: "0 3,4 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out site
+        uses: actions/checkout@v4
+
+      - name: Run The Other Side checker
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Scan for BOPS tickets
+        run: node scripts/check-the-other-side.js
+        env:
+          FORCE_RUN: ${{ github.event_name == 'workflow_dispatch' && '1' || '' }}
+
+      - name: Save scan result
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: Update BOPS ticket scan
+          file_pattern: data/bops-ticket-scan.json

@@ -1,0 +1,122 @@
+const META_PIXEL_ID = "562839845464269";
+const CONSENT_KEY = "bopsMarketingCookies";
+const UTM_KEY = "bopsCampaign";
+
+function getCampaignData() {
+  const params = new URLSearchParams(window.location.search);
+  const campaign = {};
+  ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"].forEach((key) => {
+    const value = params.get(key);
+    if (value) campaign[key] = value;
+  });
+
+  if (Object.keys(campaign).length > 0) {
+    localStorage.setItem(UTM_KEY, JSON.stringify(campaign));
+    return campaign;
+  }
+
+  try {
+    return JSON.parse(localStorage.getItem(UTM_KEY) || "{}");
+  } catch {
+    return {};
+  }
+}
+
+function loadMetaPixel(pixelId) {
+  if (!pixelId || window.fbq) return;
+
+  (function (f, b, e, v, n, t, s) {
+    if (f.fbq) return;
+    n = f.fbq = function () {
+      n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments);
+    };
+    if (!f._fbq) f._fbq = n;
+    n.push = n;
+    n.loaded = true;
+    n.version = "2.0";
+    n.queue = [];
+    t = b.createElement(e);
+    t.async = true;
+    t.src = v;
+    s = b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t, s);
+  })(window, document, "script", "https://connect.facebook.net/en_US/fbevents.js");
+
+  window.fbq("init", pixelId);
+  window.fbq("track", "PageView", getCampaignData());
+}
+
+function trackMetaEvent(eventName, label, extra = {}) {
+  if (!window.fbq) return;
+
+  window.fbq("trackCustom", eventName, {
+    label,
+    ...getCampaignData(),
+    ...extra,
+  });
+}
+
+function setConsent(value) {
+  localStorage.setItem(CONSENT_KEY, value);
+  document.querySelector("[data-cookie-banner]")?.setAttribute("hidden", "");
+  if (value === "accepted") loadMetaPixel(META_PIXEL_ID);
+}
+
+function setupCookieBanner() {
+  const banner = document.querySelector("[data-cookie-banner]");
+  const consent = localStorage.getItem(CONSENT_KEY);
+
+  if (consent === "accepted") {
+    loadMetaPixel(META_PIXEL_ID);
+  } else if (!consent) {
+    banner?.removeAttribute("hidden");
+  }
+
+  document.querySelector("[data-cookie-accept]")?.addEventListener("click", () => setConsent("accepted"));
+  document.querySelector("[data-cookie-decline]")?.addEventListener("click", () => setConsent("declined"));
+  document.querySelector("[data-cookie-settings]")?.addEventListener("click", () => {
+    banner?.removeAttribute("hidden");
+  });
+}
+
+function setupEventTracking() {
+  document.querySelectorAll("[data-track-event]").forEach((link) => {
+    link.addEventListener("click", () => {
+      trackMetaEvent(link.dataset.trackEvent, link.dataset.trackLabel || link.textContent.trim(), {
+        destination: link.href,
+      });
+    });
+  });
+
+  document.querySelectorAll("[data-track-open]").forEach((details) => {
+    details.addEventListener("toggle", () => {
+      if (!details.open) return;
+      trackMetaEvent(details.dataset.trackOpen, details.dataset.trackLabel || "Event details");
+    });
+  });
+}
+
+function setupTicketScanStatus() {
+  const status = document.querySelector("[data-bops-ticket-status]");
+  if (!status || !window.fetch) return;
+
+  fetch("data/bops-ticket-scan.json", { cache: "no-store" })
+    .then((response) => (response.ok ? response.json() : null))
+    .then((scan) => {
+      const match = scan?.matches?.[0];
+      if (!match?.url) return;
+
+      status.innerHTML = `<a href="${match.url}" target="_blank" rel="noopener" data-track-event="TicketClick" data-track-label="BOPS ticket scan match">Tickets</a>`;
+      status.querySelector("a")?.addEventListener("click", (event) => {
+        trackMetaEvent(event.currentTarget.dataset.trackEvent, event.currentTarget.dataset.trackLabel, {
+          destination: event.currentTarget.href,
+        });
+      });
+    })
+    .catch(() => {});
+}
+
+getCampaignData();
+setupCookieBanner();
+setupEventTracking();
+setupTicketScanStatus();
