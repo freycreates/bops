@@ -91,8 +91,15 @@ function setupEventTracking() {
   document.querySelectorAll("[data-track-open]").forEach((details) => {
     details.addEventListener("toggle", () => {
       if (!details.open) return;
+      closeOtherEventDetails(details);
       trackMetaEvent(details.dataset.trackOpen, details.dataset.trackLabel || "Event details");
     });
+  });
+}
+
+function closeOtherEventDetails(activeDetails) {
+  document.querySelectorAll(".event-more[open]").forEach((details) => {
+    if (details !== activeDetails) details.open = false;
   });
 }
 
