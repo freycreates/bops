@@ -103,6 +103,45 @@ function closeOtherEventDetails(activeDetails) {
   });
 }
 
+async function getReferenceTime() {
+  try {
+    const response = await fetch(`${window.location.href.split("#")[0]}?time=${Date.now()}`, {
+      method: "HEAD",
+      cache: "no-store",
+    });
+    const serverDate = response.headers.get("date");
+    if (serverDate) {
+      const parsedDate = new Date(serverDate);
+      if (!Number.isNaN(parsedDate.getTime())) return parsedDate;
+    }
+  } catch {
+    // Local file previews do not have a server date header.
+  }
+
+  return new Date();
+}
+
+async function hidePastEvents() {
+  const now = await getReferenceTime();
+
+  document.querySelectorAll(".event-card").forEach((card) => {
+    const eventTime = card.dataset.eventEnd || card.querySelector("time")?.dateTime;
+    if (!eventTime) return;
+
+    const eventDate = new Date(eventTime);
+    if (Number.isNaN(eventDate.getTime())) return;
+
+    if (card.dataset.eventEnd) {
+      if (eventDate < now) card.hidden = true;
+      return;
+    }
+
+    const endOfEventDay = new Date(eventDate);
+    endOfEventDay.setHours(23, 59, 59, 999);
+    if (endOfEventDay < now) card.hidden = true;
+  });
+}
+
 function setupTicketScanStatus() {
   const status = document.querySelector("[data-bops-ticket-status]");
   if (!status || !window.fetch) return;
@@ -124,6 +163,7 @@ function setupTicketScanStatus() {
 }
 
 getCampaignData();
+hidePastEvents();
 setupCookieBanner();
 setupEventTracking();
 setupTicketScanStatus();
