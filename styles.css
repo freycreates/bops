@@ -861,7 +861,7 @@ h2 {
 
   .mix-grid {
     grid-template-columns: minmax(0, 13rem);
-    justify-content: center;
+    justify-content: start;
   }
 
   .link-row {
