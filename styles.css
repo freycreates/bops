@@ -666,27 +666,34 @@ h2 {
 }
 
 .mix-grid {
-  grid-template-columns: repeat(4, minmax(0, 12rem));
-  justify-content: start;
+  grid-template-columns: 1fr;
+  max-width: 42rem;
 }
 
 .mix-card {
+  display: grid;
+  grid-template-columns: 4.6rem 1fr auto;
+  align-items: center;
+  gap: 1rem;
   overflow: hidden;
+  min-height: 6.2rem;
+  padding: 0.85rem 1rem 0.85rem 0.85rem;
 }
 
 .mix-card img {
   display: block;
   width: 100%;
   aspect-ratio: 1;
+  border-radius: 0.35rem;
   object-fit: cover;
 }
 
 .mix-card .mix-label {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: 0.65rem;
-  min-height: 4.6rem;
-  padding: 0.8rem;
+  min-height: 0;
+  padding: 0;
   font-weight: 900;
   line-height: 1.15;
 }
@@ -696,6 +703,19 @@ h2 {
   width: 1.45rem;
   height: 1.45rem;
   object-fit: contain;
+}
+
+.mix-card::after {
+  width: 2.3rem;
+  height: 2.3rem;
+  border-radius: 0.35rem;
+  color: var(--paper);
+  background: var(--electric);
+  content: ">";
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 900;
 }
 
 .footer {
@@ -808,7 +828,7 @@ h2 {
   }
 
   .mix-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: 1fr;
   }
 }
 
@@ -861,8 +881,20 @@ h2 {
   }
 
   .mix-grid {
-    grid-template-columns: minmax(0, 13rem);
-    justify-content: start;
+    grid-template-columns: 1fr;
+    max-width: none;
+  }
+
+  .mix-card {
+    grid-template-columns: 4rem 1fr auto;
+    gap: 0.75rem;
+    min-height: 5.6rem;
+    padding: 0.75rem;
+  }
+
+  .mix-card::after {
+    width: 2rem;
+    height: 2rem;
   }
 
   .link-row {
