@@ -453,6 +453,18 @@ h2 {
   color: var(--red);
 }
 
+.event-more .summary-less {
+  display: none;
+}
+
+.event-more[open] .summary-more {
+  display: none;
+}
+
+.event-more[open] .summary-less {
+  display: inline;
+}
+
 .event-body {
   display: grid;
   gap: 0.85rem;
