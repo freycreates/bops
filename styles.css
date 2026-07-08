@@ -16,6 +16,7 @@
 
 html {
   scroll-behavior: smooth;
+  background: #080712;
 }
 
 body {
@@ -458,11 +459,11 @@ h2 {
 }
 
 .event-more[open] .summary-more {
-  display: none;
+  display: none !important;
 }
 
 .event-more[open] .summary-less {
-  display: inline;
+  display: inline !important;
 }
 
 .event-body {
