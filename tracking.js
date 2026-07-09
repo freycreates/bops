@@ -91,8 +91,10 @@ function setupEventTracking() {
   document.querySelectorAll("[data-track-open]").forEach((details) => {
     details.addEventListener("toggle", () => {
       if (!details.open) return;
-      closeOtherEventDetails(details);
-      scrollEventCardIntoView(details);
+      keepEventCardAnchored(details, () => {
+        closeOtherEventDetails(details);
+      });
+      settleEventCardIntoView(details);
       trackMetaEvent(details.dataset.trackOpen, details.dataset.trackLabel || "Event details");
     });
   });
@@ -104,21 +106,43 @@ function closeOtherEventDetails(activeDetails) {
   });
 }
 
-function scrollEventCardIntoView(details) {
+function keepEventCardAnchored(details, changeLayout) {
+  const card = details.closest(".event-card");
+  if (!card) {
+    changeLayout();
+    return;
+  }
+
+  const topBefore = card.getBoundingClientRect().top;
+  changeLayout();
+  const topAfter = card.getBoundingClientRect().top;
+  const scrollCorrection = topAfter - topBefore;
+
+  if (scrollCorrection) {
+    window.scrollBy({
+      top: scrollCorrection,
+      behavior: "auto",
+    });
+  }
+}
+
+function settleEventCardIntoView(details) {
   const card = details.closest(".event-card");
   const header = document.querySelector(".site-header");
   if (!card) return;
 
-  window.requestAnimationFrame(() => {
+  window.requestAnimationFrame(() => window.requestAnimationFrame(() => {
     const headerHeight = header?.getBoundingClientRect().height || 0;
     const cardTop = card.getBoundingClientRect().top + window.scrollY;
     const targetTop = Math.max(0, cardTop - headerHeight - 16);
+
+    if (Math.abs(window.scrollY - targetTop) < 6) return;
 
     window.scrollTo({
       top: targetTop,
       behavior: "smooth",
     });
-  });
+  }));
 }
 
 async function getReferenceTime() {
