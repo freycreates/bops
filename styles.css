@@ -25,14 +25,14 @@ body {
   color: var(--paper);
   background-color: #080712;
   background:
-    radial-gradient(circle at 86% 8%, rgba(255, 43, 16, 0.28), transparent 30rem),
-    radial-gradient(circle at 15% 44%, rgba(32, 36, 201, 0.24), transparent 26rem),
+    radial-gradient(circle at 86% 8%, rgba(255, 43, 16, 0.34), transparent 30rem),
+    radial-gradient(circle at 15% 44%, rgba(32, 36, 201, 0.3), transparent 26rem),
     linear-gradient(135deg, #080712 0%, #17153f 48%, #080712 100%);
   background-size: 120% 120%, 120% 120%, 100% 100%;
   font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   min-height: 100vh;
   overflow-x: hidden;
-  animation: background-drift 28s ease-in-out infinite alternate;
+  animation: background-drift 22s ease-in-out infinite alternate;
 }
 
 body::before {
@@ -41,11 +41,11 @@ body::before {
   z-index: -1;
   pointer-events: none;
   content: "";
-  opacity: 0.1;
+  opacity: 0.13;
   background-image:
     linear-gradient(115deg, transparent 0 42%, rgba(255, 255, 255, 0.1) 42% 43%, transparent 43% 100%),
     repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.06) 0 1px, transparent 1px 18px);
-  animation: line-drift 36s ease-in-out infinite alternate;
+  animation: line-drift 30s ease-in-out infinite alternate;
 }
 
 @keyframes background-drift {
@@ -54,7 +54,7 @@ body::before {
   }
 
   to {
-    background-position: 8% 4%, 92% 48%, 0 0;
+    background-position: 14% 7%, 84% 52%, 0 0;
   }
 }
 
@@ -64,7 +64,7 @@ body::before {
   }
 
   to {
-    transform: translate3d(1.2rem, -0.6rem, 0);
+    transform: translate3d(2rem, -1rem, 0);
   }
 }
 
