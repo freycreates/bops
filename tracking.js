@@ -248,37 +248,9 @@ function setupHeaderLogoBreath() {
   window.addEventListener("resize", update);
 }
 
-function setupShareButton() {
-  const shareButton = document.querySelector("[data-share-button]");
-  if (!shareButton) return;
-
-  shareButton.addEventListener("click", async () => {
-    const shareData = {
-      title: "BOPS Amsterdam",
-      text: "BOPS Amsterdam queer pop party",
-      url: window.location.origin ? window.location.origin + window.location.pathname : window.location.href,
-    };
-
-    try {
-      if (navigator.share) {
-        await navigator.share(shareData);
-      } else if (navigator.clipboard) {
-        await navigator.clipboard.writeText(shareData.url);
-        shareButton.classList.add("copied");
-        window.setTimeout(() => shareButton.classList.remove("copied"), 1200);
-      }
-
-      trackMetaEvent("ShareClick", "Header share");
-    } catch {
-      // Sharing can be cancelled by the visitor.
-    }
-  });
-}
-
 getCampaignData();
 hidePastEvents();
 setupCookieBanner();
 setupEventTracking();
 setupTicketScanStatus();
 setupHeaderLogoBreath();
-setupShareButton();

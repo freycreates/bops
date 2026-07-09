@@ -197,63 +197,6 @@ a {
   transform: translateY(-3px);
 }
 
-.share-button {
-  position: relative;
-  display: inline-flex;
-  flex: 0 0 auto;
-  align-items: center;
-  justify-content: center;
-  width: 2.35rem;
-  height: 2.35rem;
-  border: 0;
-  border-radius: 0.6rem;
-  color: var(--paper);
-  background: rgba(255, 247, 239, 0.14);
-  cursor: pointer;
-  transition: transform 180ms ease, background 180ms ease;
-}
-
-.share-button:hover {
-  background: rgba(255, 247, 239, 0.22);
-  transform: translateY(-3px);
-}
-
-.share-button.copied {
-  background: var(--electric);
-}
-
-.share-icon {
-  position: relative;
-  width: 1.25rem;
-  height: 1.25rem;
-  border: 0.12rem solid currentColor;
-  border-top: 0;
-  border-radius: 0.12rem;
-}
-
-.share-icon::before {
-  position: absolute;
-  left: 50%;
-  top: -0.42rem;
-  width: 0.12rem;
-  height: 1rem;
-  background: currentColor;
-  content: "";
-  transform: translateX(-50%);
-}
-
-.share-icon::after {
-  position: absolute;
-  left: 50%;
-  top: -0.45rem;
-  width: 0.55rem;
-  height: 0.55rem;
-  border-top: 0.12rem solid currentColor;
-  border-left: 0.12rem solid currentColor;
-  content: "";
-  transform: translateX(-50%) rotate(45deg);
-}
-
 .social-button img {
   display: block;
   width: 1.42rem;
@@ -967,16 +910,6 @@ h2 {
   .social-button {
     width: 2.1rem;
     height: 2.1rem;
-  }
-
-  .share-button {
-    width: 2.1rem;
-    height: 2.1rem;
-    border-radius: 0.55rem;
-  }
-
-  .share-icon {
-    transform: scale(0.86);
   }
 
   .social-button img {
