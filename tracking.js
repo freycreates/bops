@@ -92,6 +92,7 @@ function setupEventTracking() {
     details.addEventListener("toggle", () => {
       if (!details.open) return;
       closeOtherEventDetails(details);
+      scrollEventCardIntoView(details);
       trackMetaEvent(details.dataset.trackOpen, details.dataset.trackLabel || "Event details");
     });
   });
@@ -100,6 +101,23 @@ function setupEventTracking() {
 function closeOtherEventDetails(activeDetails) {
   document.querySelectorAll(".event-more[open]").forEach((details) => {
     if (details !== activeDetails) details.open = false;
+  });
+}
+
+function scrollEventCardIntoView(details) {
+  const card = details.closest(".event-card");
+  const header = document.querySelector(".site-header");
+  if (!card) return;
+
+  window.requestAnimationFrame(() => {
+    const headerHeight = header?.getBoundingClientRect().height || 0;
+    const cardTop = card.getBoundingClientRect().top + window.scrollY;
+    const targetTop = Math.max(0, cardTop - headerHeight - 16);
+
+    window.scrollTo({
+      top: targetTop,
+      behavior: "smooth",
+    });
   });
 }
 
