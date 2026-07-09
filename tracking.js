@@ -164,13 +164,13 @@ function setupTicketScanStatus() {
 
 function setupHeaderLogoBreath() {
   const header = document.querySelector(".site-header");
-  const hero = document.querySelector(".hero");
-  if (!header || !hero) return;
+  const heroTagline = document.querySelector(".hero .eyebrow");
+  if (!header || !heroTagline) return;
 
   const update = () => {
     const headerHeight = header.getBoundingClientRect().height;
-    const heroBottom = hero.getBoundingClientRect().bottom;
-    const logoShouldShow = heroBottom <= headerHeight;
+    const taglineBottom = heroTagline.getBoundingClientRect().bottom;
+    const logoShouldShow = taglineBottom <= headerHeight;
     header.classList.toggle("logo-visible", logoShouldShow);
     header.classList.toggle("logo-breathe", logoShouldShow);
   };
