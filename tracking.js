@@ -164,17 +164,83 @@ function setupTicketScanStatus() {
 
 function setupHeaderLogoBreath() {
   const header = document.querySelector(".site-header");
+  const brand = document.querySelector(".brand");
   const heroTagline = document.querySelector(".hero .eyebrow");
   const heroLogo = document.querySelector(".hero-logo");
-  if (!header || !heroTagline || !heroLogo) return;
+  if (!header || !brand || !heroTagline || !heroLogo) return;
+
+  let logoIsVisible = false;
+  let isAnimating = false;
+
+  const revealHeaderLogo = () => {
+    if (logoIsVisible || isAnimating) return;
+
+    const from = heroLogo.getBoundingClientRect();
+    const to = brand.getBoundingClientRect();
+    const heroIsVisible = from.bottom > 0 && from.top < window.innerHeight && from.width > 0 && from.height > 0;
+
+    heroLogo.classList.add("logo-handoff");
+
+    if (!heroIsVisible || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      header.classList.add("logo-visible", "logo-breathe");
+      logoIsVisible = true;
+      return;
+    }
+
+    isAnimating = true;
+    const flyer = heroLogo.cloneNode(true);
+    flyer.className = "logo-flyer";
+    flyer.removeAttribute("id");
+    Object.assign(flyer.style, {
+      left: `${from.left}px`,
+      top: `${from.top}px`,
+      width: `${from.width}px`,
+      height: `${from.height}px`,
+    });
+    document.body.appendChild(flyer);
+
+    flyer
+      .animate(
+        [
+          { transform: "translate3d(0, 0, 0) scale(1)", opacity: 1 },
+          {
+            transform: `translate3d(${to.left - from.left}px, ${to.top - from.top}px, 0) scale(${to.width / from.width})`,
+            opacity: 1,
+          },
+        ],
+        {
+          duration: 680,
+          easing: "cubic-bezier(0.2, 0.8, 0.2, 1)",
+          fill: "forwards",
+        }
+      )
+      .finished.catch(() => {})
+      .then(() => {
+        flyer.remove();
+        header.classList.add("logo-visible", "logo-breathe");
+        logoIsVisible = true;
+        isAnimating = false;
+      });
+  };
+
+  const hideHeaderLogo = () => {
+    if (!logoIsVisible && !isAnimating) return;
+    document.querySelectorAll(".logo-flyer").forEach((flyer) => flyer.remove());
+    isAnimating = false;
+    logoIsVisible = false;
+    header.classList.remove("logo-visible", "logo-breathe");
+    heroLogo.classList.remove("logo-handoff");
+  };
 
   const update = () => {
     const headerHeight = header.getBoundingClientRect().height;
     const taglineBottom = heroTagline.getBoundingClientRect().bottom;
     const logoShouldShow = taglineBottom <= headerHeight;
-    header.classList.toggle("logo-visible", logoShouldShow);
-    header.classList.toggle("logo-breathe", logoShouldShow);
-    heroLogo.classList.toggle("logo-handoff", logoShouldShow);
+    if (logoShouldShow) {
+      revealHeaderLogo();
+    } else {
+      hideHeaderLogo();
+    }
   };
 
   update();
