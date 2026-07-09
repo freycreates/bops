@@ -170,7 +170,9 @@ function setupHeaderLogoBreath() {
   const update = () => {
     const headerHeight = header.getBoundingClientRect().height;
     const eventsTop = eventsSection.getBoundingClientRect().top;
-    header.classList.toggle("logo-breathe", eventsTop < headerHeight);
+    const logoShouldShow = eventsTop < headerHeight;
+    header.classList.toggle("logo-visible", logoShouldShow);
+    header.classList.toggle("logo-breathe", logoShouldShow);
   };
 
   update();
