@@ -615,7 +615,7 @@ h2 {
 
 .link-row {
   display: grid;
-  grid-template-columns: auto 1fr auto;
+  grid-template-columns: auto 1fr;
   align-items: center;
   align-content: center;
   column-gap: 1rem;
@@ -642,21 +642,6 @@ h2 {
   height: 2.4rem;
   object-fit: contain;
   align-self: center;
-}
-
-.link-row::after {
-  grid-column: 3;
-  grid-row: 1 / span 2;
-  width: 2.3rem;
-  height: 2.3rem;
-  border-radius: 0.35rem;
-  color: var(--paper);
-  background: var(--electric);
-  content: ">";
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 900;
 }
 
 .link-row small {
@@ -729,7 +714,7 @@ h2 {
 
 .mix-card {
   display: grid;
-  grid-template-columns: 4.6rem 1fr auto;
+  grid-template-columns: 4.6rem 1fr;
   align-items: center;
   gap: 1rem;
   overflow: hidden;
@@ -760,19 +745,6 @@ h2 {
   width: 1.45rem;
   height: 1.45rem;
   object-fit: contain;
-}
-
-.mix-card::after {
-  width: 2.3rem;
-  height: 2.3rem;
-  border-radius: 0.35rem;
-  color: var(--paper);
-  background: var(--electric);
-  content: ">";
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 900;
 }
 
 .footer {
@@ -943,19 +915,14 @@ h2 {
   }
 
   .mix-card {
-    grid-template-columns: 4rem 1fr auto;
+    grid-template-columns: 4rem 1fr;
     gap: 0.75rem;
     min-height: 5.6rem;
     padding: 0.75rem;
   }
 
-  .mix-card::after {
-    width: 2rem;
-    height: 2rem;
-  }
-
   .link-row {
-    grid-template-columns: auto 1fr 2rem;
+    grid-template-columns: auto 1fr;
   }
 
   .footer {
