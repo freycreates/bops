@@ -162,8 +162,25 @@ function setupTicketScanStatus() {
     .catch(() => {});
 }
 
+function setupHeaderLogoBreath() {
+  const header = document.querySelector(".site-header");
+  const eventsSection = document.querySelector("#events");
+  if (!header || !eventsSection) return;
+
+  const update = () => {
+    const headerHeight = header.getBoundingClientRect().height;
+    const eventsTop = eventsSection.getBoundingClientRect().top;
+    header.classList.toggle("logo-breathe", eventsTop < headerHeight);
+  };
+
+  update();
+  window.addEventListener("scroll", update, { passive: true });
+  window.addEventListener("resize", update);
+}
+
 getCampaignData();
 hidePastEvents();
 setupCookieBanner();
 setupEventTracking();
 setupTicketScanStatus();
+setupHeaderLogoBreath();
