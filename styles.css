@@ -79,10 +79,22 @@ body::before {
   }
 }
 
+@keyframes header-logo-breathe {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.025);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   body,
   body::before,
-  .hero-logo {
+  .hero-logo,
+  .brand img {
     animation: none;
   }
 }
@@ -116,6 +128,7 @@ a {
   display: block;
   width: 100%;
   height: auto;
+  animation: header-logo-breathe 5.8s ease-in-out infinite;
 }
 
 .nav-links {
