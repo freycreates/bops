@@ -295,6 +295,15 @@ a {
   margin-bottom: clamp(0.75rem, 2.2vw, 1.35rem);
   filter: drop-shadow(var(--shadow));
   animation: logo-bounce 4.2s ease-in-out infinite;
+  transform-origin: center;
+  transition: opacity 420ms ease, transform 520ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  will-change: transform, opacity;
+}
+
+.hero-logo.logo-handoff {
+  opacity: 0;
+  transform: translate(-34vw, -24vh) scale(0.28);
+  animation: none;
 }
 
 .eyebrow,
@@ -911,6 +920,10 @@ h2 {
 
   .hero-logo {
     width: min(76vw, 29.5rem);
+  }
+
+  .hero-logo.logo-handoff {
+    transform: translate(-32vw, -20vh) scale(0.22);
   }
 
   .music-grid {
