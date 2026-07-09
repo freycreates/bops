@@ -213,9 +213,12 @@ function setupHeaderLogoBreath() {
 
   let logoIsVisible = false;
   let isAnimating = false;
+  let handoffRun = 0;
 
   const revealHeaderLogo = () => {
     if (logoIsVisible || isAnimating) return;
+    handoffRun += 1;
+    const currentRun = handoffRun;
 
     const from = heroLogo.getBoundingClientRect();
     const to = brand.getBoundingClientRect();
@@ -241,23 +244,34 @@ function setupHeaderLogoBreath() {
     });
     document.body.appendChild(flyer);
 
+    const x = to.left - from.left;
+    const y = to.top - from.top;
+    const scale = to.width / from.width;
+
     flyer
       .animate(
         [
-          { transform: "translate3d(0, 0, 0) scale(1)", opacity: 1 },
+          { transform: "translate3d(0, 0, 0) scale(1)", opacity: 1, offset: 0 },
           {
-            transform: `translate3d(${to.left - from.left}px, ${to.top - from.top}px, 0) scale(${to.width / from.width})`,
+            transform: `translate3d(${x * 0.55}px, ${y * 0.45 - 20}px, 0) scale(${1 - (1 - scale) * 0.45})`,
             opacity: 1,
+            offset: 0.58,
+          },
+          {
+            transform: `translate3d(${x}px, ${y}px, 0) scale(${scale})`,
+            opacity: 1,
+            offset: 1,
           },
         ],
         {
-          duration: 680,
-          easing: "cubic-bezier(0.2, 0.8, 0.2, 1)",
+          duration: 860,
+          easing: "cubic-bezier(0.18, 0.82, 0.22, 1)",
           fill: "forwards",
         }
       )
       .finished.catch(() => {})
       .then(() => {
+        if (currentRun !== handoffRun) return;
         flyer.remove();
         header.classList.add("logo-visible", "logo-breathe");
         logoIsVisible = true;
@@ -267,6 +281,7 @@ function setupHeaderLogoBreath() {
 
   const hideHeaderLogo = () => {
     if (!logoIsVisible && !isAnimating) return;
+    handoffRun += 1;
     document.querySelectorAll(".logo-flyer").forEach((flyer) => flyer.remove());
     isAnimating = false;
     logoIsVisible = false;
