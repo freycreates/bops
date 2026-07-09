@@ -138,6 +138,13 @@ a {
   color: var(--red);
 }
 
+.footer a {
+  color: var(--red);
+  text-decoration: underline;
+  text-decoration-thickness: 0.08em;
+  text-underline-offset: 0.18em;
+}
+
 .header-actions {
   display: flex;
   align-items: center;
