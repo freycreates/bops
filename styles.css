@@ -46,6 +46,7 @@ html {
   scroll-behavior: smooth;
   background: var(--ink);
   color-scheme: dark;
+  font-size: 17px;
 }
 
 body {
@@ -182,7 +183,7 @@ a {
   justify-content: center;
   gap: clamp(1rem, 3vw, 2.5rem);
   color: var(--muted);
-  font-size: 0.8rem;
+  font-size: 0.92rem;
   font-weight: 800;
   text-transform: uppercase;
 }
@@ -245,7 +246,7 @@ a {
   padding: 0.75rem 1rem;
   border: 1px solid transparent;
   border-radius: 0.35rem;
-  font-size: 0.82rem;
+  font-size: 0.95rem;
   font-weight: 900;
   text-transform: uppercase;
   transition: transform 180ms ease, background 180ms ease, border-color 180ms ease;
@@ -348,7 +349,7 @@ a {
 .card-kicker {
   margin: 0 0 0.9rem;
   color: var(--red);
-  font-size: 0.78rem;
+  font-size: 0.94rem;
   font-weight: 900;
   letter-spacing: 0;
   text-transform: uppercase;
@@ -367,7 +368,7 @@ h2 {
 
 h2 {
   max-width: 12ch;
-  font-size: clamp(2rem, 3.6vw, 3.8rem);
+  font-size: clamp(2.25rem, 3.8vw, 4rem);
   font-weight: 900;
   line-height: 0.95;
 }
@@ -376,7 +377,7 @@ h2 {
   max-width: 38rem;
   margin: 0;
   color: var(--muted);
-  font-size: clamp(1.05rem, 2.2vw, 1.55rem);
+  font-size: clamp(1.2rem, 2.3vw, 1.7rem);
   font-weight: 700;
   line-height: 1.25;
 }
@@ -524,7 +525,7 @@ h2 {
   display: block;
   margin: 0 0 1rem;
   color: var(--red);
-  font-size: 0.85rem;
+  font-size: 0.98rem;
   font-weight: 900;
   text-transform: uppercase;
 }
@@ -537,7 +538,7 @@ h2 {
 .music-card strong {
   display: block;
   margin: 0 0 0.75rem;
-  font-size: clamp(1.75rem, 4vw, 3rem);
+  font-size: clamp(2rem, 4.2vw, 3.2rem);
   font-weight: 900;
   line-height: 0.95;
 }
@@ -547,7 +548,7 @@ h2 {
 .link-row small {
   margin: 0;
   color: var(--muted);
-  font-size: 0.95rem;
+  font-size: 1.08rem;
   font-weight: 700;
   line-height: 1.35;
 }
@@ -570,7 +571,7 @@ h2 {
   width: max-content;
   cursor: pointer;
   color: var(--red);
-  font-size: 0.86rem;
+  font-size: 1rem;
   font-weight: 900;
   text-transform: uppercase;
 }
@@ -598,7 +599,7 @@ h2 {
   max-width: 56rem;
   padding-top: 1rem;
   color: var(--muted);
-  font-size: 0.96rem;
+  font-size: 1.08rem;
   font-weight: 650;
   line-height: 1.5;
 }
@@ -635,7 +636,7 @@ h2 {
   border-radius: 0.35rem;
   color: var(--paper);
   background: var(--electric);
-  font-size: 0.82rem;
+  font-size: 0.96rem;
   font-weight: 900;
   text-transform: uppercase;
 }
@@ -648,7 +649,7 @@ h2 {
   border-radius: 0.35rem;
   color: var(--paper);
   background: rgba(0, 0, 200, 0.18);
-  font-size: 0.82rem;
+  font-size: 0.96rem;
   font-weight: 900;
   text-transform: uppercase;
 }
@@ -669,7 +670,7 @@ h2 {
 .split h2 {
   max-width: 12ch;
   color: var(--paper);
-  font-size: clamp(2rem, 3.6vw, 3.8rem);
+  font-size: clamp(2.25rem, 3.8vw, 4rem);
   line-height: 0.95;
 }
 
@@ -677,7 +678,7 @@ h2 {
   max-width: 22rem;
   margin: 1.15rem 0 0;
   color: var(--muted);
-  font-size: clamp(1rem, 1.6vw, 1.25rem);
+  font-size: clamp(1.12rem, 1.75vw, 1.38rem);
   font-weight: 800;
   line-height: 1.3;
 }
@@ -699,7 +700,7 @@ h2 {
   grid-column: 2;
   grid-row: 1;
   color: var(--paper);
-  font-size: clamp(1.2rem, 2.4vw, 2rem);
+  font-size: clamp(1.38rem, 2.55vw, 2.15rem);
   font-weight: 900;
   line-height: 1;
 }
@@ -744,7 +745,7 @@ h2 {
 .music-group h3 {
   margin: 0;
   color: var(--green);
-  font-size: clamp(1.2rem, 1.8vw, 1.55rem);
+  font-size: clamp(1.35rem, 2vw, 1.75rem);
   font-weight: 900;
   line-height: 1;
   text-transform: uppercase;
@@ -826,7 +827,7 @@ h2 {
   gap: 0.85rem;
   padding: 2rem 1rem 3rem;
   color: var(--muted);
-  font-size: 0.82rem;
+  font-size: 0.95rem;
   font-weight: 700;
   text-transform: uppercase;
 }
@@ -875,14 +876,14 @@ h2 {
   display: block;
   margin-bottom: 0.25rem;
   color: var(--red);
-  font-size: 1.05rem;
+  font-size: 1.15rem;
   font-weight: 900;
 }
 
 .cookie-banner p {
   margin: 0;
   color: var(--muted);
-  font-size: 0.9rem;
+  font-size: 1rem;
   font-weight: 700;
   line-height: 1.35;
 }
@@ -902,7 +903,7 @@ h2 {
   color: var(--paper);
   background: var(--electric);
   font: inherit;
-  font-size: 0.8rem;
+  font-size: 0.92rem;
   font-weight: 900;
   text-transform: uppercase;
   cursor: pointer;
