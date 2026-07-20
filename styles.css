@@ -12,6 +12,8 @@
   --line: rgba(197, 204, 209, 0.24);
   --cut: clamp(0.9rem, 1.8vw, 1.55rem);
   --shadow: 0 26px 80px rgba(0, 0, 0, 0.32);
+  --brand-font: "Transducer Condensed", Impact, "Arial Narrow", sans-serif;
+  --body-font: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
 @font-face {
@@ -60,7 +62,7 @@ body {
     radial-gradient(circle at 22% 32%, rgba(0, 0, 200, 0.5), transparent 33rem),
     linear-gradient(135deg, var(--ink) 0%, rgba(0, 0, 200, 0.38) 46%, var(--ink) 100%);
   background-size: 135% 135%, 130% 130%, 125% 125%, 130% 130%, 100% 100%;
-  font-family: "Transducer Condensed", Impact, "Arial Narrow", sans-serif;
+  font-family: var(--body-font);
   min-height: 100vh;
   overflow-x: hidden;
   animation: background-drift 22s ease-in-out infinite alternate;
@@ -183,6 +185,7 @@ a {
   justify-content: center;
   gap: clamp(1rem, 3vw, 2.5rem);
   color: var(--muted);
+  font-family: var(--brand-font);
   font-size: 0.92rem;
   font-weight: 800;
   text-transform: uppercase;
@@ -246,6 +249,7 @@ a {
   padding: 0.75rem 1rem;
   border: 1px solid transparent;
   border-radius: 0.35rem;
+  font-family: var(--brand-font);
   font-size: 0.95rem;
   font-weight: 900;
   text-transform: uppercase;
@@ -349,6 +353,7 @@ a {
 .card-kicker {
   margin: 0 0 0.9rem;
   color: var(--red);
+  font-family: var(--brand-font);
   font-size: 0.94rem;
   font-weight: 900;
   letter-spacing: 0;
@@ -362,6 +367,7 @@ a {
 
 h2 {
   margin: 0;
+  font-family: var(--brand-font);
   letter-spacing: 0;
   line-height: 0.86;
 }
@@ -378,8 +384,8 @@ h2 {
   margin: 0;
   color: var(--muted);
   font-size: clamp(1.2rem, 2.3vw, 1.7rem);
-  font-weight: 700;
-  line-height: 1.25;
+  font-weight: 800;
+  line-height: 1.35;
 }
 
 .hero-actions {
@@ -525,6 +531,7 @@ h2 {
   display: block;
   margin: 0 0 1rem;
   color: var(--red);
+  font-family: var(--brand-font);
   font-size: 0.98rem;
   font-weight: 900;
   text-transform: uppercase;
@@ -538,6 +545,7 @@ h2 {
 .music-card strong {
   display: block;
   margin: 0 0 0.75rem;
+  font-family: var(--brand-font);
   font-size: clamp(2rem, 4.2vw, 3.2rem);
   font-weight: 900;
   line-height: 0.95;
@@ -548,9 +556,9 @@ h2 {
 .link-row small {
   margin: 0;
   color: var(--muted);
-  font-size: 1.08rem;
-  font-weight: 700;
-  line-height: 1.35;
+  font-size: 1.02rem;
+  font-weight: 800;
+  line-height: 1.45;
 }
 
 .event-summary p {
@@ -571,6 +579,7 @@ h2 {
   width: max-content;
   cursor: pointer;
   color: var(--red);
+  font-family: var(--brand-font);
   font-size: 1rem;
   font-weight: 900;
   text-transform: uppercase;
@@ -599,9 +608,9 @@ h2 {
   max-width: 56rem;
   padding-top: 1rem;
   color: var(--muted);
-  font-size: 1.08rem;
-  font-weight: 650;
-  line-height: 1.5;
+  font-size: 1.02rem;
+  font-weight: 700;
+  line-height: 1.62;
 }
 
 .event-body p {
@@ -611,6 +620,7 @@ h2 {
 .event-body strong,
 .event-lineup strong {
   color: var(--paper);
+  font-family: var(--brand-font);
   font-weight: 900;
 }
 
@@ -636,6 +646,7 @@ h2 {
   border-radius: 0.35rem;
   color: var(--paper);
   background: var(--electric);
+  font-family: var(--brand-font);
   font-size: 0.96rem;
   font-weight: 900;
   text-transform: uppercase;
@@ -649,6 +660,7 @@ h2 {
   border-radius: 0.35rem;
   color: var(--paper);
   background: rgba(0, 0, 200, 0.18);
+  font-family: var(--brand-font);
   font-size: 0.96rem;
   font-weight: 900;
   text-transform: uppercase;
@@ -680,7 +692,7 @@ h2 {
   color: var(--muted);
   font-size: clamp(1.12rem, 1.75vw, 1.38rem);
   font-weight: 800;
-  line-height: 1.3;
+  line-height: 1.45;
 }
 
 .link-row {
@@ -700,6 +712,7 @@ h2 {
   grid-column: 2;
   grid-row: 1;
   color: var(--paper);
+  font-family: var(--brand-font);
   font-size: clamp(1.38rem, 2.55vw, 2.15rem);
   font-weight: 900;
   line-height: 1;
@@ -745,6 +758,7 @@ h2 {
 .music-group h3 {
   margin: 0;
   color: var(--green);
+  font-family: var(--brand-font);
   font-size: clamp(1.35rem, 2vw, 1.75rem);
   font-weight: 900;
   line-height: 1;
@@ -808,6 +822,7 @@ h2 {
   gap: 0.65rem;
   min-height: 0;
   padding: 0;
+  font-family: var(--brand-font);
   font-weight: 900;
   line-height: 1.15;
 }
@@ -827,8 +842,8 @@ h2 {
   gap: 0.85rem;
   padding: 2rem 1rem 3rem;
   color: var(--muted);
-  font-size: 0.95rem;
-  font-weight: 700;
+  font-size: 0.9rem;
+  font-weight: 750;
   text-transform: uppercase;
 }
 
@@ -876,6 +891,7 @@ h2 {
   display: block;
   margin-bottom: 0.25rem;
   color: var(--red);
+  font-family: var(--brand-font);
   font-size: 1.15rem;
   font-weight: 900;
 }
@@ -902,7 +918,7 @@ h2 {
   border-radius: 0.35rem;
   color: var(--paper);
   background: var(--electric);
-  font: inherit;
+  font-family: var(--brand-font);
   font-size: 0.92rem;
   font-weight: 900;
   text-transform: uppercase;
