@@ -210,114 +210,16 @@ function setupHeaderLogoBreath() {
   const heroLogo = document.querySelector(".hero-logo");
   if (!header || !brand || !heroLogo) return;
 
-  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-  const compactLogoHandoff = window.matchMedia("(max-width: 920px)");
-  let flyer;
   let ticking = false;
-
-  const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
-  const ease = (value) => value * value * (3 - 2 * value);
-  const mix = (start, end, progress) => start + (end - start) * progress;
-
-  const removeFlyer = () => {
-    flyer?.remove();
-    flyer = undefined;
-  };
 
   const update = () => {
     ticking = false;
     const headerHeight = header.getBoundingClientRect().height;
-    const from = heroLogo.getBoundingClientRect();
-    const to = brand.getBoundingClientRect();
-    const isCompact = compactLogoHandoff.matches;
-    const startAt = headerHeight + (isCompact ? Math.min(260, window.innerHeight * 0.32) : Math.min(180, window.innerHeight * 0.2));
-    const finishAt = headerHeight + (isCompact ? 44 : 8);
-    const progress = clamp((startAt - from.top) / (startAt - finishAt), 0, 1);
+    const logoBottom = heroLogo.getBoundingClientRect().bottom;
+    const logoIsDocked = logoBottom <= headerHeight + 12;
 
-    if (prefersReducedMotion.matches) {
-      const isDocked = from.top <= finishAt;
-      removeFlyer();
-      heroLogo.classList.toggle("logo-handoff", isDocked);
-      header.classList.toggle("logo-visible", isDocked);
-      header.classList.toggle("logo-breathe", isDocked);
-      heroLogo.style.removeProperty("opacity");
-      brand.style.removeProperty("opacity");
-      brand.style.removeProperty("transform");
-      brand.style.removeProperty("pointer-events");
-      return;
-    }
-
-    if (progress <= 0) {
-      removeFlyer();
-      heroLogo.classList.remove("logo-handoff");
-      header.classList.remove("logo-visible", "logo-breathe");
-      heroLogo.style.removeProperty("opacity");
-      brand.style.removeProperty("opacity");
-      brand.style.removeProperty("transform");
-      brand.style.removeProperty("pointer-events");
-      return;
-    }
-
-    if (isCompact) {
-      removeFlyer();
-      const eased = ease(progress);
-      const headerOpacity = clamp((progress - 0.24) / 0.62, 0, 1);
-
-      heroLogo.classList.toggle("logo-handoff", progress >= 1);
-      heroLogo.style.opacity = progress >= 1 ? "" : 1 - eased;
-      header.classList.add("logo-visible");
-      header.classList.toggle("logo-breathe", progress >= 0.98);
-      Object.assign(brand.style, {
-        opacity: headerOpacity,
-        pointerEvents: progress >= 0.98 ? "auto" : "none",
-        transform: `translateY(${mix(-0.35, 0, headerOpacity)}rem)`,
-      });
-      return;
-    }
-
-    if (progress >= 1) {
-      removeFlyer();
-      heroLogo.classList.add("logo-handoff");
-      heroLogo.style.removeProperty("opacity");
-      header.classList.add("logo-visible", "logo-breathe");
-      Object.assign(brand.style, {
-        opacity: 1,
-        pointerEvents: "auto",
-        transform: "translateY(0)",
-      });
-      return;
-    }
-
-    if (!flyer) {
-      flyer = heroLogo.cloneNode(true);
-      flyer.className = "logo-flyer";
-      flyer.removeAttribute("id");
-      document.body.appendChild(flyer);
-    }
-
-    const eased = ease(progress);
-    const headerOpacity = clamp((progress - 0.72) / 0.22, 0, 1);
-    const flyerOpacity = progress < 0.86 ? 1 : clamp(1 - (progress - 0.86) / 0.14, 0, 1);
-    const width = mix(from.width, to.width, eased);
-    const height = mix(from.height, to.height, eased);
-    const left = mix(from.left, to.left, eased);
-    const top = mix(from.top, to.top, eased);
-
-    heroLogo.classList.add("logo-handoff");
-    header.classList.add("logo-visible");
-    header.classList.toggle("logo-breathe", progress >= 0.98);
-    Object.assign(brand.style, {
-      opacity: headerOpacity,
-      pointerEvents: progress >= 0.98 ? "auto" : "none",
-      transform: `translateY(${mix(-0.35, 0, headerOpacity)}rem)`,
-    });
-    Object.assign(flyer.style, {
-      left: `${left}px`,
-      top: `${top}px`,
-      width: `${width}px`,
-      height: `${height}px`,
-      opacity: flyerOpacity,
-    });
+    header.classList.toggle("logo-visible", logoIsDocked);
+    header.classList.toggle("logo-breathe", logoIsDocked);
   };
 
   const requestUpdate = () => {
@@ -329,13 +231,6 @@ function setupHeaderLogoBreath() {
   requestUpdate();
   window.addEventListener("scroll", requestUpdate, { passive: true });
   window.addEventListener("resize", requestUpdate);
-  if (prefersReducedMotion.addEventListener) {
-    prefersReducedMotion.addEventListener("change", requestUpdate);
-    compactLogoHandoff.addEventListener("change", requestUpdate);
-  } else {
-    prefersReducedMotion.addListener(requestUpdate);
-    compactLogoHandoff.addListener(requestUpdate);
-  }
 }
 
 getCampaignData();
