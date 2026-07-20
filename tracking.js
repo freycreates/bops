@@ -207,18 +207,19 @@ function setupTicketScanStatus() {
 function setupHeaderLogoBreath() {
   const header = document.querySelector(".site-header");
   const brand = document.querySelector(".brand");
-  const heroTagline = document.querySelector(".hero .eyebrow");
   const heroLogo = document.querySelector(".hero-logo");
-  if (!header || !brand || !heroTagline || !heroLogo) return;
+  if (!header || !brand || !heroLogo) return;
 
   let logoIsVisible = false;
   let isAnimating = false;
   let handoffRun = 0;
+  let dockTimer;
 
   const revealHeaderLogo = () => {
     if (logoIsVisible || isAnimating) return;
     handoffRun += 1;
     const currentRun = handoffRun;
+    const duration = 780;
 
     const from = heroLogo.getBoundingClientRect();
     const to = brand.getBoundingClientRect();
@@ -233,6 +234,7 @@ function setupHeaderLogoBreath() {
     }
 
     isAnimating = true;
+    clearTimeout(dockTimer);
     const flyer = heroLogo.cloneNode(true);
     flyer.className = "logo-flyer";
     flyer.removeAttribute("id");
@@ -244,28 +246,39 @@ function setupHeaderLogoBreath() {
     });
     document.body.appendChild(flyer);
 
-    const x = to.left - from.left;
-    const y = to.top - from.top;
+    const x = to.left + to.width / 2 - (from.left + from.width / 2);
+    const y = to.top + to.height / 2 - (from.top + from.height / 2);
     const scale = to.width / from.width;
+    const midScale = 1 - (1 - scale) * 0.42;
+
+    dockTimer = window.setTimeout(() => {
+      if (currentRun !== handoffRun) return;
+      header.classList.add("logo-visible");
+    }, duration * 0.62);
 
     flyer
       .animate(
         [
           { transform: "translate3d(0, 0, 0) scale(1)", opacity: 1, offset: 0 },
           {
-            transform: `translate3d(${x * 0.55}px, ${y * 0.45 - 20}px, 0) scale(${1 - (1 - scale) * 0.45})`,
+            transform: `translate3d(${x * 0.34}px, ${y * 0.22 - 16}px, 0) scale(${1 - (1 - scale) * 0.18})`,
             opacity: 1,
-            offset: 0.58,
+            offset: 0.32,
+          },
+          {
+            transform: `translate3d(${x * 0.74}px, ${y * 0.68 - 8}px, 0) scale(${midScale})`,
+            opacity: 0.96,
+            offset: 0.72,
           },
           {
             transform: `translate3d(${x}px, ${y}px, 0) scale(${scale})`,
-            opacity: 1,
+            opacity: 0,
             offset: 1,
           },
         ],
         {
-          duration: 860,
-          easing: "cubic-bezier(0.18, 0.82, 0.22, 1)",
+          duration,
+          easing: "cubic-bezier(0.18, 0.9, 0.24, 1)",
           fill: "forwards",
         }
       )
@@ -282,6 +295,7 @@ function setupHeaderLogoBreath() {
   const hideHeaderLogo = () => {
     if (!logoIsVisible && !isAnimating) return;
     handoffRun += 1;
+    clearTimeout(dockTimer);
     document.querySelectorAll(".logo-flyer").forEach((flyer) => flyer.remove());
     isAnimating = false;
     logoIsVisible = false;
@@ -291,8 +305,8 @@ function setupHeaderLogoBreath() {
 
   const update = () => {
     const headerHeight = header.getBoundingClientRect().height;
-    const taglineBottom = heroTagline.getBoundingClientRect().bottom;
-    const logoShouldShow = taglineBottom <= headerHeight;
+    const logoTop = heroLogo.getBoundingClientRect().top;
+    const logoShouldShow = logoTop <= headerHeight + 8;
     if (logoShouldShow) {
       revealHeaderLogo();
     } else {
