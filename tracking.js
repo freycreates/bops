@@ -211,6 +211,7 @@ function setupHeaderLogoBreath() {
   if (!header || !brand || !heroLogo) return;
 
   const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+  const compactLogoHandoff = window.matchMedia("(max-width: 920px)");
   let flyer;
   let ticking = false;
 
@@ -228,8 +229,9 @@ function setupHeaderLogoBreath() {
     const headerHeight = header.getBoundingClientRect().height;
     const from = heroLogo.getBoundingClientRect();
     const to = brand.getBoundingClientRect();
-    const startAt = headerHeight + Math.min(180, window.innerHeight * 0.2);
-    const finishAt = headerHeight + 8;
+    const isCompact = compactLogoHandoff.matches;
+    const startAt = headerHeight + (isCompact ? Math.min(260, window.innerHeight * 0.32) : Math.min(180, window.innerHeight * 0.2));
+    const finishAt = headerHeight + (isCompact ? 44 : 8);
     const progress = clamp((startAt - from.top) / (startAt - finishAt), 0, 1);
 
     if (prefersReducedMotion.matches) {
@@ -238,6 +240,7 @@ function setupHeaderLogoBreath() {
       heroLogo.classList.toggle("logo-handoff", isDocked);
       header.classList.toggle("logo-visible", isDocked);
       header.classList.toggle("logo-breathe", isDocked);
+      heroLogo.style.removeProperty("opacity");
       brand.style.removeProperty("opacity");
       brand.style.removeProperty("transform");
       brand.style.removeProperty("pointer-events");
@@ -248,15 +251,34 @@ function setupHeaderLogoBreath() {
       removeFlyer();
       heroLogo.classList.remove("logo-handoff");
       header.classList.remove("logo-visible", "logo-breathe");
+      heroLogo.style.removeProperty("opacity");
       brand.style.removeProperty("opacity");
       brand.style.removeProperty("transform");
       brand.style.removeProperty("pointer-events");
       return;
     }
 
+    if (isCompact) {
+      removeFlyer();
+      const eased = ease(progress);
+      const headerOpacity = clamp((progress - 0.24) / 0.62, 0, 1);
+
+      heroLogo.classList.toggle("logo-handoff", progress >= 1);
+      heroLogo.style.opacity = progress >= 1 ? "" : 1 - eased;
+      header.classList.add("logo-visible");
+      header.classList.toggle("logo-breathe", progress >= 0.98);
+      Object.assign(brand.style, {
+        opacity: headerOpacity,
+        pointerEvents: progress >= 0.98 ? "auto" : "none",
+        transform: `translateY(${mix(-0.35, 0, headerOpacity)}rem)`,
+      });
+      return;
+    }
+
     if (progress >= 1) {
       removeFlyer();
       heroLogo.classList.add("logo-handoff");
+      heroLogo.style.removeProperty("opacity");
       header.classList.add("logo-visible", "logo-breathe");
       Object.assign(brand.style, {
         opacity: 1,
@@ -309,8 +331,10 @@ function setupHeaderLogoBreath() {
   window.addEventListener("resize", requestUpdate);
   if (prefersReducedMotion.addEventListener) {
     prefersReducedMotion.addEventListener("change", requestUpdate);
+    compactLogoHandoff.addEventListener("change", requestUpdate);
   } else {
     prefersReducedMotion.addListener(requestUpdate);
+    compactLogoHandoff.addListener(requestUpdate);
   }
 }
 
